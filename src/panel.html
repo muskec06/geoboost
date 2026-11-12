@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GeoBoost</title>
+<style>
+:root{--bg:#f6f5f1;--card:#fff;--line:#e3e1d9;--tx:#1f1e1c;--mut:#6b6a64;--acc:#0f6e56;--accbg:#e1f5ee;--warn:#854f0b;--warnbg:#faeeda;--bad:#a32d2d;--badbg:#fcebeb;--off:#888780;--offbg:#f1efe8;--mono:ui-monospace,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1c1a;--card:#262624;--line:#3a3936;--tx:#ecebe6;--mut:#a4a29a;--acc:#5dcaa5;--accbg:#0c3a2f;--warn:#fac775;--warnbg:#412402;--bad:#f09595;--badbg:#501313;--off:#b4b2a9;--offbg:#2c2c2a}}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 "Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--tx)}
+.wrap{max-width:980px;margin:0 auto;padding:20px}
+header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+h1{font-size:20px;font-weight:600;margin:0;letter-spacing:.2px}h2{font-size:15px;font-weight:600;margin:0 0 12px}
+.pill{padding:4px 12px;border-radius:999px;font-size:13px;font-weight:600}
+.p-off{background:var(--offbg);color:var(--off)}.p-connecting{background:var(--warnbg);color:var(--warn)}.p-connected{background:var(--accbg);color:var(--acc)}.p-fallback{background:var(--badbg);color:var(--bad)}
+.sp{flex:1}
+button{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--tx);padding:7px 16px;border-radius:8px;cursor:pointer}
+button:hover{border-color:var(--mut)}button.pri{background:var(--acc);border-color:var(--acc);color:#fff}button.pri.stop{background:var(--bad);border-color:var(--bad)}
+button:disabled{opacity:.5;cursor:default}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.full{grid-column:1/-1}
+.top{display:grid;grid-template-columns:1fr 1fr;gap:14px;grid-column:1/-1}@media (max-width:700px){.top{grid-template-columns:1fr}}
+.neutral{color:var(--mut);font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.kpi .v{font-size:22px;font-weight:600}.kpi .l{font-size:12px;color:var(--mut)}
+.cells{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px}
+.cell{border-radius:8px;padding:6px 8px;font-size:12px;background:var(--offbg);color:var(--off)}
+.cell.up{background:var(--accbg);color:var(--acc)}.cell b{display:block;font-size:13px}
+label{display:block;font-size:13px;color:var(--mut);margin:10px 0 4px}
+input[type=text],input[type=number],input[type=password]{width:100%;font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--tx)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.chk{display:flex;align-items:center;gap:8px;color:var(--tx);font-size:14px;margin:8px 0}
+.hint{font-size:12px;color:var(--mut);margin-top:4px}
+.msg{font-size:13px;margin-top:10px;min-height:18px}.ok{color:var(--acc)}.err{color:var(--bad)}
+.banner{background:var(--badbg);color:var(--bad);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:12px;display:none}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}th{color:var(--mut);font-weight:500}
+td.n{font-variant-numeric:tabular-nums}.good{color:var(--acc);font-weight:600}.fail{color:var(--bad);font-weight:600}
+pre{font:12px/1.5 var(--mono);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;max-height:240px;overflow:auto;margin:0;white-space:pre-wrap}
+details summary{cursor:pointer;color:var(--mut);font-size:13px;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>GeoBoost</h1>
+    <span id="pill" class="pill p-off">Off</span>
+    <span id="hat" class="hint"></span>
+    <span class="sp"></span>
+    <button id="btnConn" class="pri">Connect</button>
+  </header>
+  <div id="banner" class="banner"></div>
+
+  <div class="grid">
+    <div class="top">
+    <div class="card">
+      <h2>Traffic</h2>
+      <div class="kpis">
+        <div class="kpi"><div class="v" id="down">0</div><div class="l">Download (app)</div></div>
+        <div class="kpi"><div class="v" id="up">0</div><div class="l">Upload</div></div>
+        <div class="kpi"><div class="v" id="save">0%</div><div class="l">Satellite bytes saved (compression)</div></div>
+      </div>
+      <div class="hint" id="tot" style="margin-top:10px"></div>
+    </div>
+    <div class="card">
+      <h2>Carriers</h2>
+      <div class="cells" id="cells"><div class="hint">Not connected</div></div>
+    </div>
+    </div>
+
+    <div class="card full">
+      <h2>Settings</h2>
+      <div class="row">
+        <div><label>Server address (IP or hostname)</label><input type="text" id="server_host" placeholder="203.0.113.10"></div>
+        <div><label>Server port</label><input type="number" id="server_port"></div>
+      </div>
+      <label>PSK key <span id="pskState" class="hint"></span></label>
+      <input type="password" id="psk" placeholder="Paste to change (output of: openssl rand -hex 32)" autocomplete="off">
+      <div class="hint">The key is encrypted with Windows DPAPI and can only be read by this Windows account.</div>
+      <div class="row">
+        <div><label>Carriers</label><input type="number" id="carriers" min="1" max="64"></div>
+        <div><label>Fallback after (seconds, 0 = never)</label><input type="number" id="fallback_secs" min="0"></div>
+      </div>
+      <label class="chk"><input type="checkbox" id="set_system_proxy"> Set the Windows system proxy (browsers, most apps)</label>
+      <label class="chk"><input type="checkbox" id="set_git"> Route git through the tunnel (global http.proxy)</label>
+      <label class="chk"><input type="checkbox" id="set_env"> Environment variables (HTTPS_PROXY etc. for gh, npm, pip, curl; newly started programs)</label>
+      <label class="chk"><input type="checkbox" id="auto_connect"> Connect automatically when GeoBoost starts</label>
+      <label class="chk"><input type="checkbox" id="autostart"> Start with Windows</label>
+      <details>
+        <summary>Advanced</summary>
+        <div class="row4">
+          <div><label>SOCKS5</label><input type="number" id="socks_port"></div>
+          <div><label>HTTP proxy</label><input type="number" id="http_port"></div>
+          <div><label>1-RTT gate</label><input type="number" id="gate_port"></div>
+          <div><label>Panel</label><input type="number" id="panel_port"></div>
+        </div>
+        <label>Extra proxy bypass entries (separate with ;)</label>
+        <input type="text" id="bypass" placeholder="*.corp.local;10.20.*">
+        <div class="hint">Local network, localhost and private IP ranges are always bypassed.</div>
+      </details>
+      <div style="margin-top:14px;display:flex;gap:10px;align-items:center">
+        <button id="btnSave" class="pri">Save</button>
+        <span id="cfgMsg" class="msg"></span>
+      </div>
+    </div>
+
+    <div class="card full">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <h2 style="margin:0">Speed test</h2><span class="sp"></span>
+        <button id="btnBench">Run test</button>
+      </div>
+      <div class="hint">6 parallel requests to real websites: direct connection vs. tunnel (end-to-end TLS) vs. 1-RTT gate (TLS terminates on your ground server).</div>
+      <div id="bench" style="margin-top:10px"></div>
+    </div>
+
+    <div class="card full">
+      <h2>Log</h2>
+      <pre id="log"></pre>
+    </div>
+  </div>
+</div>
+<script>
+const T = new URLSearchParams(location.hash.slice(1)).get('t') || '';
+const $ = id => document.getElementById(id);
+async function api(path, body) {
+  const opt = { method: body === undefined ? 'GET' : 'POST', headers: { 'X-Token': T } };
+  if (body !== undefined) { opt.headers['Content-Type'] = 'application/json'; opt.body = JSON.stringify(body); }
+  const r = await fetch('/api/' + path, opt);
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || ('HTTP ' + r.status));
+  return j;
+}
+const fmtRate = b => b < 1024 ? b.toFixed(0) + ' B/s' : b < 1048576 ? (b / 1024).toFixed(1) + ' KB/s' : (b / 1048576).toFixed(2) + ' MB/s';
+const fmtSize = b => b < 1048576 ? (b / 1024).toFixed(0) + ' KB' : b < 1073741824 ? (b / 1048576).toFixed(1) + ' MB' : (b / 1073741824).toFixed(2) + ' GB';
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+let running = false;
+
+function banner(t) { const b = $('banner'); b.textContent = t || ''; b.style.display = t ? 'block' : 'none'; }
+
+async function refresh() {
+  let s;
+  try { s = await api('status'); } catch (e) { banner(e.message); return; }
+  running = s.phase !== 'off';
+  $('pill').className = 'pill p-' + s.phase; $('pill').textContent = s.phase_label;
+  $('hat').textContent = running ? `${s.ready}/${s.total} carriers · ${s.active_streams} streams` : '';
+  const b = $('btnConn'); b.textContent = running ? 'Disconnect' : 'Connect'; b.classList.toggle('stop', running);
+  banner(s.error);
+  $('down').textContent = fmtRate(s.rates.app_down); $('up').textContent = fmtRate(s.rates.app_up);
+  $('save').textContent = s.saving_pct + '%';
+  $('tot').textContent = `Total: ${fmtSize(s.totals.app_down)} downloaded, ${fmtSize(s.totals.wire_down)} over the satellite · ${s.totals.streams} connections opened`;
+  $('cells').innerHTML = s.carriers.length ? s.carriers.map(c =>
+    `<div class="cell ${c.alive ? 'up' : ''}"><b>#${c.idx}</b>${c.alive ? (c.rtt_ms > 0 ? c.rtt_ms + ' ms' : 'measuring') : 'waiting'}${c.streams ? ' · ' + c.streams : ''}</div>`).join('') : '<div class="hint">Not connected</div>';
+  const lg = $('log'); const atBottom = lg.scrollTop + lg.clientHeight >= lg.scrollHeight - 20;
+  lg.textContent = s.log.join('\n'); if (atBottom) lg.scrollTop = lg.scrollHeight;
+}
+
+const fields = ['server_host', 'server_port', 'carriers', 'fallback_secs', 'socks_port', 'http_port', 'gate_port', 'panel_port', 'bypass'];
+const checks = ['set_system_proxy', 'set_git', 'set_env', 'auto_connect', 'autostart'];
+async function loadCfg() {
+  const c = await api('config');
+  fields.forEach(f => $(f).value = c[f]); checks.forEach(f => $(f).checked = !!c[f]);
+  $('pskState').textContent = c.has_psk ? '(saved)' : '(not set yet)';
+}
+$('btnSave').onclick = async () => {
+  const body = {}; fields.forEach(f => body[f] = $(f).type === 'number' ? Number($(f).value) : $(f).value);
+  checks.forEach(f => body[f] = $(f).checked); body.psk = $('psk').value.trim();
+  const m = $('cfgMsg'); m.className = 'msg'; m.textContent = 'Saving…';
+  try { const r = await api('config', body); m.className = 'msg ok'; m.textContent = r.message; $('psk').value = ''; await loadCfg(); }
+  catch (e) { m.className = 'msg err'; m.textContent = e.message; }
+};
+$('btnConn').onclick = async () => {
+  const b = $('btnConn'); b.disabled = true;
+  try { await api(running ? 'disconnect' : 'connect', {}); } catch (e) { banner(e.message); }
+  b.disabled = false; refresh();
+};
+
+function cellOf(r) {
+  if (!r) return '<td>–</td>';
+  return r.ok ? `<td class="n">${r.total.toFixed(2)} s</td>` : `<td class="fail" title="${esc(r.detail || '')}">${esc(r.err)}</td>`;
+}
+function renderBench(b) {
+  if (b.running) { $('bench').innerHTML = '<div class="hint">Test running… (about 15–45 s)</div>'; return; }
+  if (!b.rows) { $('bench').innerHTML = ''; return; }
+  const sp = (d, x) => {
+    if (d.ok && x.ok) { const k = d.total / x.total; return `<span class="${k > 1.05 ? 'good' : 'neutral'}">${k.toFixed(1)}×</span>`; }
+    return (!d.ok && x.ok) ? '<span class="good">fixed</span>' : '–';
+  };
+  let h = '<table><tr><th>Site</th><th>Direct</th><th>Tunnel</th><th>1-RTT gate</th><th>Speed-up (tunnel / 1-RTT)</th></tr>';
+  b.rows.forEach(r => { h += `<tr><td>${esc(r.name)}</td>${cellOf(r.direct)}${cellOf(r.tunnel)}${cellOf(r.gate)}<td>${sp(r.direct, r.tunnel)} / ${sp(r.direct, r.gate)}</td></tr>`; });
+  const fails = k => b.rows.filter(r => !r[k].ok).length;
+  h += `<tr><th>Total (parallel)</th><th class="n">${b.wall.direct.toFixed(2)} s · ${fails('direct')} failed</th><th class="n">${b.wall.tunnel.toFixed(2)} s · ${fails('tunnel')} failed</th><th class="n">${b.wall.gate.toFixed(2)} s · ${fails('gate')} failed</th><th></th></tr></table>`;
+  $('bench').innerHTML = h;
+}
+let benchPoll = null;
+async function pollBench() { const b = await api('bench'); renderBench(b); if (!b.running && benchPoll) { clearInterval(benchPoll); benchPoll = null; $('btnBench').disabled = false; } }
+$('btnBench').onclick = async () => {
+  try { await api('bench', {}); $('btnBench').disabled = true; renderBench({ running: true }); benchPoll = setInterval(pollBench, 1500); }
+  catch (e) { banner(e.message); }
+};
+
+if (!T) banner('Missing session key. Open the panel from the GeoBoost icon in the notification area.');
+else { loadCfg().catch(e => banner(e.message)); refresh(); setInterval(refresh, 1000); pollBench().catch(() => {}); }
+</script>
+</body>
+</html>

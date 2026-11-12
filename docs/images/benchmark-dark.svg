@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="534" viewBox="0 0 860 534" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
+<rect width="860" height="534" rx="12" fill="#0d1117"/>
+<text x="28" y="40" font-size="19" font-weight="600" fill="#e6edf3">Response time on an emulated GEO satellite link</text>
+<text x="28" y="64" font-size="13" fill="#9198a1">583 ms RTT · 5 Mbps per-seat cap · median of 3 runs · shorter is better</text>
+<line x1="250.0" y1="84" x2="250.0" y2="456" stroke="#262c36" stroke-width="1"/>
+<text x="250.0" y="474" font-size="11" fill="#9198a1" text-anchor="middle">0 s</text>
+<line x1="313.8" y1="84" x2="313.8" y2="456" stroke="#262c36" stroke-width="1"/>
+<text x="313.8" y="474" font-size="11" fill="#9198a1" text-anchor="middle">1 s</text>
+<line x1="377.5" y1="84" x2="377.5" y2="456" stroke="#262c36" stroke-width="1"/>
+<text x="377.5" y="474" font-size="11" fill="#9198a1" text-anchor="middle">2 s</text>
+<line x1="441.2" y1="84" x2="441.2" y2="456" stroke="#262c36" stroke-width="1"/>
+<text x="441.2" y="474" font-size="11" fill="#9198a1" text-anchor="middle">3 s</text>
+<line x1="505.0" y1="84" x2="505.0" y2="456" stroke="#262c36" stroke-width="1"/>
+<text x="505.0" y="474" font-size="11" fill="#9198a1" text-anchor="middle">4 s</text>
+<line x1="568.8" y1="84" x2="568.8" y2="456" stroke="#262c36" stroke-width="1"/>
+<text x="568.8" y="474" font-size="11" fill="#9198a1" text-anchor="middle">5 s</text>
+<line x1="632.5" y1="84" x2="632.5" y2="456" stroke="#262c36" stroke-width="1"/>
+<text x="632.5" y="474" font-size="11" fill="#9198a1" text-anchor="middle">6 s</text>
+<line x1="696.2" y1="84" x2="696.2" y2="456" stroke="#262c36" stroke-width="1"/>
+<text x="696.2" y="474" font-size="11" fill="#9198a1" text-anchor="middle">7 s</text>
+<line x1="760.0" y1="84" x2="760.0" y2="456" stroke="#262c36" stroke-width="1"/>
+<text x="760.0" y="474" font-size="11" fill="#9198a1" text-anchor="middle">8 s</text>
+<text x="28" y="106" font-size="14" font-weight="600" fill="#e6edf3">HTTPS small page</text>
+<text x="28" y="125" font-size="12" fill="#9198a1">GeoBoost: tunnel</text>
+<rect x="250" y="92" width="112.2" height="18" rx="3" fill="#5f5e5a"/>
+<text x="368.2" y="105" font-size="12" fill="#9198a1">1.76 s</text>
+<rect x="250" y="114" width="75.2" height="18" rx="3" fill="#2fbf8f"/>
+<text x="331.2" y="127" font-size="12" fill="#e6edf3"><tspan font-weight="600">1.18 s</tspan><tspan fill="#5dcaa5" font-weight="700" dx="8">1.5× faster</tspan></text>
+<text x="28" y="168" font-size="14" font-weight="600" fill="#e6edf3">6 parallel HTTPS requests</text>
+<text x="28" y="187" font-size="12" fill="#9198a1">GeoBoost: tunnel</text>
+<rect x="250" y="154" width="113.5" height="18" rx="3" fill="#5f5e5a"/>
+<text x="369.5" y="167" font-size="12" fill="#9198a1">1.78 s</text>
+<rect x="250" y="176" width="77.1" height="18" rx="3" fill="#2fbf8f"/>
+<text x="333.1" y="189" font-size="12" fill="#e6edf3"><tspan font-weight="600">1.21 s</tspan><tspan fill="#5dcaa5" font-weight="700" dx="8">1.5× faster</tspan></text>
+<text x="28" y="230" font-size="14" font-weight="600" fill="#e6edf3">HTTP small page</text>
+<text x="28" y="249" font-size="12" fill="#9198a1">GeoBoost: tunnel / 1-RTT</text>
+<rect x="250" y="216" width="74.6" height="18" rx="3" fill="#5f5e5a"/>
+<text x="330.6" y="229" font-size="12" fill="#9198a1">1.17 s</text>
+<rect x="250" y="238" width="37.6" height="18" rx="3" fill="#2fbf8f"/>
+<text x="293.6" y="251" font-size="12" fill="#e6edf3"><tspan font-weight="600">0.59 s</tspan><tspan fill="#5dcaa5" font-weight="700" dx="8">2.0× faster</tspan></text>
+<text x="28" y="292" font-size="14" font-weight="600" fill="#e6edf3">HTTP 3 MB text</text>
+<text x="28" y="311" font-size="12" fill="#9198a1">GeoBoost: tunnel / 1-RTT, zlib</text>
+<rect x="250" y="278" width="411.2" height="18" rx="3" fill="#5f5e5a"/>
+<text x="667.2" y="291" font-size="12" fill="#9198a1">6.45 s</text>
+<rect x="250" y="300" width="77.1" height="18" rx="3" fill="#2fbf8f"/>
+<text x="333.1" y="313" font-size="12" fill="#e6edf3"><tspan font-weight="600">1.21 s</tspan><tspan fill="#5dcaa5" font-weight="700" dx="8">5.3× faster</tspan></text>
+<text x="28" y="354" font-size="14" font-weight="600" fill="#e6edf3">HTTPS 3 MB text</text>
+<text x="28" y="373" font-size="12" fill="#9198a1">GeoBoost: tunnel</text>
+<rect x="250" y="340" width="448.8" height="18" rx="3" fill="#5f5e5a"/>
+<text x="704.8" y="353" font-size="12" fill="#9198a1">7.04 s</text>
+<rect x="250" y="362" width="411.8" height="18" rx="3" fill="#2fbf8f"/>
+<text x="667.8" y="375" font-size="12" fill="#e6edf3"><tspan font-weight="600">6.46 s</tspan><tspan fill="#5dcaa5" font-weight="700" dx="8">1.1× faster</tspan></text>
+<text x="28" y="416" font-size="14" font-weight="600" fill="#e6edf3">HTTPS 2 MB incompressible</text>
+<text x="28" y="435" font-size="12" fill="#9198a1">GeoBoost: tunnel</text>
+<rect x="250" y="402" width="326.4" height="18" rx="3" fill="#5f5e5a"/>
+<text x="582.4" y="415" font-size="12" fill="#9198a1">5.12 s</text>
+<rect x="250" y="424" width="290.1" height="18" rx="3" fill="#2fbf8f"/>
+<text x="546.1" y="437" font-size="12" fill="#e6edf3"><tspan font-weight="600">4.55 s</tspan><tspan fill="#5dcaa5" font-weight="700" dx="8">1.1× faster</tspan></text>
+<rect x="28" y="498" width="14" height="12" rx="2" fill="#5f5e5a"/><text x="48" y="508" font-size="12" fill="#9198a1">Direct connection</text>
+<rect x="190" y="498" width="14" height="12" rx="2" fill="#2fbf8f"/><text x="210" y="508" font-size="12" fill="#9198a1">GeoBoost</text>
+</svg>

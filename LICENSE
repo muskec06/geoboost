@@ -1,6 +1,7 @@
 MIT License
 
-Copyright (c) 2026 muskec06
+Copyright (c) 2026 GeoBoost contributors
+Portions (wire protocol design, server/satmux.py) Copyright (c) 2026 Thomas Marchand
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
