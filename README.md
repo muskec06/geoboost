@@ -14,7 +14,7 @@ It is a single `.exe`: no Python, no installer and no admin rights needed.
 [![License: MIT](https://img.shields.io/badge/license-MIT-1d9e75)](LICENSE)
 [![Protocol](https://img.shields.io/badge/protocol-satmux%20v3-534AB7)](https://github.com/Th0rgal/satmux)
 
-[**Download**](https://github.com/OWNER/geoboost/releases/latest) · [Quick start](#quick-start) · [How it works](#how-it-works) · [Benchmarks](#benchmarks) · [FAQ](#troubleshooting--faq)
+[**Download**](https://github.com/muskec06/geoboost/releases/latest) · [Quick start](#quick-start) · [How it works](#how-it-works) · [Benchmarks](#benchmarks) · [FAQ](#troubleshooting--faq)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/panel-dark.png">
@@ -236,7 +236,7 @@ When it finishes, it prints everything the app needs:
 
 ### 2. Run GeoBoost on Windows
 
-1. Download `GeoBoost-windows-x64.zip` from [Releases](https://github.com/OWNER/geoboost/releases/latest), unzip it, and run `geoboost.exe`. The panel opens in your browser on first start.
+1. Download `GeoBoost-windows-x64.zip` from [Releases](https://github.com/muskec06/geoboost/releases/latest), unzip it, and run `geoboost.exe`. The panel opens in your browser on first start.
    - The build is not code-signed yet, so SmartScreen may warn you. Choose **More info → Run anyway**.
 2. Enter the **server address**, **port** and **PSK**, then click **Save**.
 3. Click **Connect**. When the tray icon turns <img src="docs/images/tray-connected.png" width="14" alt="green"> green, you're done.
