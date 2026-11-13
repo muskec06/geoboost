@@ -1,3 +1,26 @@
+# Rust derleme çıktıları
 /target
+target/
+**/*.rs.bk
+*.pdb
+
+# Dağıtım paketleri
 /dist
 *.zip
+
+# Gizli bilgiler (şifre, token, anahtar)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Editör ve işletim sistemi dosyaları
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+Desktop.ini
+.DS_Store
